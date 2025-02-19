@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerAPI.Data;
 using TaskManagerAPI.Models;
+using TaskManagerAPI.DTOs;
 
 namespace TaskManagerAPI.Controllers
 {
@@ -45,16 +46,50 @@ namespace TaskManagerAPI.Controllers
             return CreatedAtAction(nameof(GetTask), new { id = taskItem.TaskId }, taskItem);
         }
 
-        //PUT: api/task/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTask(int id, TaskItem taskItem)
+        //PATCH: api/task/{id}
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskUpdateDTO updateDTO)
         {
-            if ( id != taskItem.TaskId)
+            if (updateDTO == null)
             {
-                return BadRequest();
+                return BadRequest("Invalid update data.");
             }
 
-            _context.Entry(taskItem).State = EntityState.Modified;
+            var taskItem = await _context.Tasks.FindAsync(id);
+            if (taskItem == null)
+            {
+                return NotFound();
+            }
+
+            // Update only provided fields
+            if (updateDTO.IsCompleted.HasValue)
+            {
+                taskItem.IsCompleted = updateDTO.IsCompleted.Value;
+            }
+            if (!string.IsNullOrEmpty(updateDTO.Title))
+            {
+                taskItem.Title = updateDTO.Title;
+            }
+            if (!string.IsNullOrEmpty(updateDTO.TaskDesc))
+            {
+                taskItem.TaskDesc = updateDTO.TaskDesc;
+            }
+            if (updateDTO.DueDate.HasValue)
+            {
+                taskItem.DueDate = updateDTO.DueDate.Value;
+            }
+            if (!string.IsNullOrEmpty(updateDTO.TaskPrio))
+            {
+                taskItem.TaskPrio = updateDTO.TaskPrio;
+            }
+            if (updateDTO.CategoryId.HasValue)
+            {
+                taskItem.CategoryId = updateDTO.CategoryId.Value;
+            }
+            if (updateDTO.UserId.HasValue)
+            {
+                taskItem.UserId = updateDTO.UserId.Value;
+            }
 
             try
             {
@@ -71,8 +106,7 @@ namespace TaskManagerAPI.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
+            return Ok(new { message = "Task updated successfully." });
         }
 
         //DELETE: api/task/{id}
