@@ -27,11 +27,11 @@ function TasksList() {
 
   return (
     <div>
-      <h1>Tasks</h1>
-      <ul>
+      <h2>Tasks</h2>
+      <ul className="taskList">
         {tasks.map((task) => (
-          <li key={task.taskId}>
-            {task.title} - {task.isCompleted ? '✅ Completed' : '❌ Not Completed'}
+          <li key={task.taskId} className="taskItem">
+            {task.title}
           </li>
         ))}
       </ul>
