@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Checkbox, List, ListItem, ListItemText } from '@mui/material';
 
 // Define the TaskItem type based on your API response
 interface TaskItem {
@@ -19,22 +20,33 @@ function TasksList() {
         }
         return response.json();
       })
-      .then((data) => setTasks(data))
-      .catch((err) => setError(err.message));
+      .then((data) => {
+        const filteredTasks = data.filter((tasks: TaskItem) => !tasks.isCompleted);
+        setTasks(filteredTasks);
+      })
+      .catch((error) => setError(error.message));
   }, []);
 
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
-      <h1>Tasks</h1>
-      <ul>
+      <h2 className="tasksSubheading">Uncomplete Tasks</h2>
+      <List className="taskList">
         {tasks.map((task) => (
-          <li key={task.taskId}>
-            {task.title} - {task.isCompleted ? '✅ Completed' : '❌ Not Completed'}
-          </li>
+          <ListItem key={task.taskId} className="taskItem">
+            <Checkbox
+              sx={{
+                color: "white",
+                '&.Mui-checked': {
+                  color: "white",
+                },
+              }}
+            />
+            <ListItemText primary={task.title} />
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </div>
   );
 }
