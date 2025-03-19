@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Checkbox, List, ListItem, ListItemText } from '@mui/material';
+import '../Styles/TaskList.css';
 
 // Define the TaskItem type based on your API response
 interface TaskItem {
@@ -50,5 +51,6 @@ function TasksList() {
     </div>
   );
 }
+
 
 export default TasksList;

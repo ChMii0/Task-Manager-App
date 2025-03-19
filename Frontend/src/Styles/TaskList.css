@@ -1,0 +1,35 @@
+.tasksSubheading {
+    text-align: center;
+    color: #ffffff;
+}
+
+ul.taskList {
+    list-style-type: disc;
+    display: block;
+}
+
+li.taskItem {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds spacing between checkbox and task title */
+    color: #ffffff;
+    background: #303030;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+}
+
+li.taskItem:hover {
+    background: #404040;
+}
+
+li {
+    /* background: #ffffff; */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    display : flex;
+    justify-content: space-between;
+    color:#ffffff;
+}

@@ -1,4 +1,5 @@
 import TasksList from './components/TaskList';
+import CompletedTasks from './components/CompletedTasks';
 import './Styles/styles.css';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
       <h1 className="title">Task Manager</h1>
       <div className="container">
         <TasksList />
+        <CompletedTasks />
       </div>
     </div>
   );
