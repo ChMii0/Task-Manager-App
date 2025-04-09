@@ -49,5 +49,42 @@ export function useTasks() {
     }
   };
 
-  return { tasks, updateTaskStatus, error };
+  // function to create new task
+  const createTask = async (title: string, description: string) => {
+    try {
+      const response = await fetch("http://localhost:5229/api/Task", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, taskDesc: description, isCompleted: false }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create task");
+      }
+
+      const newTask = await response.json();
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+    } catch (error) {
+      console.error("Error creating task:", error);
+    }
+  };
+
+  // function to delete task
+  const deleteTask = async (taskId: number) => {
+    try {
+      const response = await fetch(`http://localhost:5229/api/Task/${taskId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete task");
+      }
+
+      setTasks((prevTasks) => prevTasks.filter((task) => task.taskId !== taskId));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  return { tasks, updateTaskStatus, createTask, deleteTask, error };
 }
