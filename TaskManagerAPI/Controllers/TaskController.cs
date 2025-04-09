@@ -39,8 +39,22 @@ namespace TaskManagerAPI.Controllers
 
         // POST: api/task
         [HttpPost]
-        public async Task<ActionResult<TaskItem>> CreateTask(TaskItem taskItem)
+        public async Task<ActionResult<TaskItem>> CreateTask([FromBody] TaskItem taskItem)
         {
+            if (string.IsNullOrEmpty(taskItem.Title))
+            {
+                return BadRequest("Task title is required.");
+            }
+
+            // Set default values for missing fields
+            taskItem.IsCompleted = false; 
+            taskItem.DueDate ??= DateTime.UtcNow.AddDays(7); 
+            taskItem.TaskPrio ??= "Medium"; 
+            taskItem.CategoryId = taskItem.CategoryId > 0 ? taskItem.CategoryId : 1; 
+            taskItem.UserId = taskItem.UserId > 0 ? taskItem.UserId : 1; 
+            taskItem.CreatedAt = DateTime.UtcNow; 
+
+
             _context.Tasks.Add(taskItem);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTask), new { id = taskItem.TaskId }, taskItem);

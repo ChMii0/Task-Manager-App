@@ -1,0 +1,50 @@
+
+/* Center the form inside the popup */
+.taskFormContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+}
+
+.MuiDialog-paper {
+    background-color: #303030;
+    color: white;
+    border-radius: 30px;
+}
+
+/* Style for text fields */
+.taskFormInput {
+    width: 100%;
+    font-size: 16px;
+    color: white;
+}
+
+/* Style for the action buttons */
+.taskFormActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Customize the floating action button */
+.fabButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #666666;
+    color: white;
+    transition: background 0.3s ease-in-out;
+}
+
+.fabButton:hover {
+    background-color: #a2a2a2;
+}
+
+.formButton {
+    color: white;
+}
+.formButton:hover {
+    background-color: #a2a2a2;
+}
